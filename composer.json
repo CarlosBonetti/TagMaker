@@ -1,7 +1,7 @@
 {
     "name": "tagmaker/tagmaker",
     "description": "A dynamic builder of tag elements",
-    "version": "0.1.1",
+    "version": "0.1.2",
     "keywords": ["tag", "tag maker", "tag builder"],
     "license": "MIT",
     "authors": [
