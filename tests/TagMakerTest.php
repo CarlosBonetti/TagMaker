@@ -1,10 +1,8 @@
 <?php
 
-require_once __DIR__ . '/../TagMaker.php';
+use TagMaker\TagMaker;
 
-use Tagmaker\TagMaker;
-
-class TagMakerTest extends \PHPUnit_Framework_TestCase {
+class TagMakerTest extends PHPUnit_Framework_TestCase {
 
   public function setUp() {
 

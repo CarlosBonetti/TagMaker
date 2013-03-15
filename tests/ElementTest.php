@@ -1,10 +1,8 @@
 <?php
 
-require_once __DIR__ . '/../TagMaker.php';
-
 use TagMaker\Element;
 
-class ElementTest extends \PHPUnit_Framework_TestCase {
+class ElementTest extends PHPUnit_Framework_TestCase {
     
   public function setUp() {
     $this->div = new Element('div', '', array(
