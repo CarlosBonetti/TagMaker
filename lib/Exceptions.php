@@ -1,4 +1,4 @@
-<?
+<?php
 
 namespace TagMaker;
 
@@ -18,3 +18,8 @@ class ExistentAttributeException extends TagMakerException {};
  * Thrown when tries to access a non-existent attribute
  */
 class UndefinedAttributeException extends TagMakerException {};
+
+/**
+ * Thrown when creates an invalid rule
+ */
+class InvalidRuleException extends TagMakerException {};
