@@ -9,7 +9,7 @@ A dynamic builder of tag elements
 Add to your composer.json:
 ```
 "require": {
-  "tag-maker/tag-maker": "~0.1.0"
+  "tagmaker/tagmaker": "~0.1"
 }
 ```
 

@@ -1,7 +1,7 @@
 {
     "name": "tagmaker/tagmaker",
     "description": "A dynamic builder of tag elements",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "keywords": ["tag", "tag maker", "tag builder"],
     "license": "MIT",
     "authors": [
@@ -15,5 +15,10 @@
     },
     "require-dev": {
         "phpunit/phpunit": "3.7.*"
+    },
+    "autoload": {
+        "psr-0": {
+            "TagMaker": "lib/"
+        }
     }
 }
