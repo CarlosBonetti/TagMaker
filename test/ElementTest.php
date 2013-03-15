@@ -104,6 +104,15 @@ class ElementTest extends \PHPUnit_Framework_TestCase {
     $this->assertTrue($element->attribute_exists('touched'));
   }
 
+
+  public function test_merge_attributes() {
+    $element = new Element('a', '', array('class' => 'btn', 'name' => 'title'));
+    $element->merge_attributes(array('class' => 'link', 'href' => '#'));
+    $this->assertEquals('link', $element->get_class());
+    $this->assertEquals('title', $element->get_name());
+    $this->assertEquals('#', $element->get_href());
+  }
+
   /**
    * @expectedException TagMaker\UndefinedAttributeException
    */

@@ -189,6 +189,15 @@ class Element {
   }
 
   /**
+   * Merges the actual attributes with the parameter, overriding the old ones in case of duplicates
+   * @param Array $attributes Attributes to be merged
+   */
+  public function merge_attributes(array $attributes) {
+    foreach($attributes as $key => $value)
+      $this->set_attribute($key, $value);
+  }
+
+  /**
    * Gets the element attributes
    * @return array
    */
