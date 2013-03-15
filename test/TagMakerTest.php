@@ -1,7 +1,5 @@
 <?php
 
-require_once __DIR__ . '/../TagMaker.php';
-
 use Tagmaker\TagMaker;
 
 class TagMakerTest extends \PHPUnit_Framework_TestCase {
