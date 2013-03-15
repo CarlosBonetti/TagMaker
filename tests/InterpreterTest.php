@@ -1,8 +1,8 @@
 <?php
 
-use Tagmaker\Interpreter;
+use TagMaker\Interpreter;
 
-class InterpreterTest extends \PHPUnit_Framework_TestCase {
+class InterpreterTest extends PHPUnit_Framework_TestCase {
 
   public function setUp() {
 

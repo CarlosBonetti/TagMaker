@@ -1,8 +1,8 @@
 <?php
 
-use Tagmaker\TagMaker;
+use TagMaker\TagMaker;
 
-class TagMakerTest extends \PHPUnit_Framework_TestCase {
+class TagMakerTest extends PHPUnit_Framework_TestCase {
 
   public function setUp() {
 
