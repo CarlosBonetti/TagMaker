@@ -7,7 +7,8 @@
     "authors": [
     	{
         	"name": "Carlos Bonetti",
-        	"email": "carlosbonetti@inf.ufsc.br"
+        	"email": "carlosbonetti@inf.ufsc.br",
+            "homepage": "http://github.com/CarlosBonetti"
     	}
     ],
     "require": {
