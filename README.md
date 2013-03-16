@@ -9,7 +9,7 @@ A dynamic builder of tag elements
 Add to your composer.json:
 ```
 "require": {
-  "tagmaker/tagmaker": "~0.1"
+  "tagmaker/tagmaker": "dev-master"
 }
 ```
 
@@ -21,12 +21,25 @@ echo $element; // Will render '<a>Link</a>'
 $element->set_class('btn');
 $element->set_href('#');
 $element->append_class('btn-large');
-echo $element; // Will render '<a href="#" class="btn btn-large">Link</a>'
+echo $element; // Output '<a href="#" class="btn btn-large">Link</a>'
 ```
 
-### CSS-like element rules
+## CSS-Like element creation
 
 ```php
 $element = TagMaker::create('form.form-vertical#new-post[name=new-post,method=post]');
-echo $element; // Will render '<form name="new-post" method="post" class="form-vertical" id="new-post"></form>'
+echo $element; // Output: '<form name="new-post" method="post" class="form-vertical" id="new-post"></form>'
 ```
+
+## Magic methods for attributes manipulation
+
+```php
+$element = TagMaker::create('.content', 'Lorem ipsum');
+$element->set_id('main-content');
+$element->prepend_class('span6');
+
+// Output: <div class="span6 content" id="main-content">Lorem ipsum</div>
+```
+
+Available attributes manipulation magic methods are: 
+`append_{$attribute}($value)`, `prepend_{$attribute}($value)`, `set_{$attribute}($value)`, `get_{$attribute}()`
