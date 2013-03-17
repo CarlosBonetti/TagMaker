@@ -74,6 +74,14 @@ class InterpreterTest extends PHPUnit_Framework_TestCase {
     $this->assertEquals('id_underscore', Interpreter::extract_id('article.class#id_underscore.post'));
   }
 
+  public function test_extract_classes() {
+    $this->assertEquals(array('class'), Interpreter::extract_classes('.class'));
+    $this->assertEquals(array('main'), Interpreter::extract_classes('div.main'));
+    $this->assertEquals(array('class-dash'), Interpreter::extract_classes('div.class-dash'));
+    $this->assertEquals(array('class_underscore'), Interpreter::extract_classes('div.class_underscore'));
+    $this->assertEquals(array('class1', 'class2', 'class3'), Interpreter::extract_classes('li.class1.class2#id.class3'));
+  }
+
   public function test_element_rule() {
     $element = Interpreter::element_rule('section');
     $this->assertEquals('section', $element["tag"]);

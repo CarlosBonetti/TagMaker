@@ -66,6 +66,17 @@ class Interpreter {
   }
 
   /**
+   * Extracts the classes from an element rule
+   * @param String Element rule
+   * @return Array Array with the classes names
+   */
+  public static function extract_classes($rule) {
+    $rule = static::normalize_rule($rule);
+    preg_match_all('/\.(?<classes>[\w-]*)/', $rule, $matches);
+    return $matches["classes"];
+  }
+
+  /**
    * Interprets an element rule
    * Element rules are used to create single elements.   
    * 
@@ -84,9 +95,8 @@ class Interpreter {
     $element["attributes"] = self::extract_attributes($attributes);
 
     // Getting the classes '.'
-    preg_match_all('/\.(?<classes>[\w-]*)/', $rule, $matches);
-    $classes = isset($matches["classes"]) ? $matches["classes"] : false;
-    if ($classes)
+    $classes = static::extract_classes($rule);
+    if (!empty($classes))
       $element["attributes"]["class"] = implode(' ', $classes);
 
     // Getting the id '#'
