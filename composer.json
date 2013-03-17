@@ -1,13 +1,14 @@
 {
     "name": "tagmaker/tagmaker",
     "description": "A dynamic builder of tag elements",
-    "version": "0.1.2",
+    "version": "0.2.0",
     "keywords": ["tag", "tag maker", "tag builder"],
     "license": "MIT",
     "authors": [
     	{
         	"name": "Carlos Bonetti",
-        	"email": "carlosbonetti@inf.ufsc.br"
+        	"email": "carlosbonetti@inf.ufsc.br",
+            "homepage": "http://github.com/CarlosBonetti"
     	}
     ],
     "require": {

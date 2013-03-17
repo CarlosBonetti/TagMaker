@@ -13,6 +13,10 @@ class TagMaker {
    */
   public static function create($element_rule, $content = null, $attributes = array()) {
     $config = Interpreter::element_rule($element_rule);
+
+    if ($content === null && !empty($config["content"]))
+      $content = $config["content"];
+
     $element = new Element($config["tag"], $content, $config["attributes"]);
     $element->merge_attributes($attributes);
     return $element;
