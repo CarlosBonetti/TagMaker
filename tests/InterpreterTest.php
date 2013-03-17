@@ -57,7 +57,6 @@ class InterpreterTest extends PHPUnit_Framework_TestCase {
   }
 
   public function test_extract_tag() {
-    $this->assertEquals('div', Interpreter::extract_tag(''));
     $this->assertEquals('a', Interpreter::extract_tag('a'));
     $this->assertEquals('div', Interpreter::extract_tag('.post#test'));
     $this->assertEquals('section', Interpreter::extract_tag('section'));

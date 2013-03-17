@@ -5,39 +5,18 @@ namespace TagMaker;
 /**
  * Used to interpret formation rules
  */
-class Interpreter {
+class Interpreter {  
 
   /**
-   * Returns a hash of attributes, receiving them typed like 'key=value1,single_attr,key2=value2'
-   * @param String Attributes
-   * @return Array
-   */
-  public static function extract_attributes($attributes) {
-    if (!$attributes || empty($attributes))
-      return array();
-
-    $equals = explode(',', $attributes);
-    foreach($equals as $e) {
-      $parts = explode('=', $e);
-      if (count($parts) > 2)
-        throw new InvalidRuleException("There is an invalid rule near of \"{$e}\"");
-
-      if (count($parts) == 2)
-        $res[$parts[0]] = $parts[1];
-      elseif (count($parts == 1)) {
-        $res[] = $parts[0];
-      }
-    }
-
-    return $res;
-  }
-
-  /**
-   * Normalizes a rule with some filters
+   * Normalizes a rule with some filters and check if it is valid
    * @param String Rule
    * @return String Rule normalized
+   * @throws InvalidRuleException
    */
   protected static function normalize_rule($rule) {
+    if (empty($rule) || !$rule)
+      throw new InvalidRuleException("Blank rules are not valid");
+
     return trim($rule);
   }
 
@@ -77,6 +56,31 @@ class Interpreter {
   }
 
   /**
+   * Returns a hash of attributes, receiving them typed like 'key=value1,single_attr,key2=value2'
+   * @param String Attributes
+   * @return Array
+   */
+  public static function extract_attributes($attributes) {
+    if (!$attributes || empty($attributes))
+      return array();
+
+    $equals = explode(',', $attributes);
+    foreach($equals as $e) {
+      $parts = explode('=', $e);
+      if (count($parts) > 2)
+        throw new InvalidRuleException("There is an invalid rule near of \"{$e}\"");
+
+      if (count($parts) == 2)
+        $res[$parts[0]] = $parts[1];
+      elseif (count($parts == 1)) {
+        $res[] = $parts[0];
+      }
+    }
+
+    return $res;
+  }
+
+  /**
    * Interprets an element rule
    * Element rules are used to create single elements.   
    * 
@@ -84,15 +88,13 @@ class Interpreter {
    * @return array Array with 'tag' => 'tagname' and attributes => array_of_attributes containing the provided attributes
    */
   public static function element_rule($rule) {
-    $rule = trim($rule);
-
-    if (empty($rule) || !$rule)
-      throw new InvalidRuleException("Blank rules are not valid");
+    // Getting the tag
+    $element["tag"] = static::extract_tag($rule);
 
     // Getting the attributes inside brackets '[]'
     preg_match('/\[(?<attributes>.*)\]/', $rule, $matches);
     $attributes = isset($matches["attributes"]) ? $matches["attributes"] : false;
-    $element["attributes"] = self::extract_attributes($attributes);
+    $element["attributes"] = static::extract_attributes($attributes);
 
     // Getting the classes '.'
     $classes = static::extract_classes($rule);
@@ -103,9 +105,6 @@ class Interpreter {
     $id = static::extract_id($rule);
     if ($id)
       $element["attributes"]["id"] = $id;    
-
-    // Getting the tag
-    $element["tag"] = static::extract_tag($rule);
 
     return $element;
   }
