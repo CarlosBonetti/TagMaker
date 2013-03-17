@@ -9,6 +9,8 @@ class Interpreter {
 
   /**
    * Returns a hash of attributes, receiving them typed like 'key=value1,single_attr,key2=value2'
+   * @param String Attributes
+   * @return Array
    */
   public static function extract_attributes($attributes) {
     if (!$attributes || empty($attributes))
@@ -28,6 +30,27 @@ class Interpreter {
     }
 
     return $res;
+  }
+
+  /**
+   * Normalizes a rule with some filters
+   * @param String Rule
+   * @return String Rule normalized
+   */
+  protected static function normalize_rule($rule) {
+    return trim($rule);
+  }
+
+  /**
+   * Extracts a tag from an element rule
+   * @param String Element rule
+   * @return String Tag name
+   */
+  public static function extract_tag($rule) {
+    $rule = static::normalize_rule($rule);
+    preg_match('/(?<tag>[\w-]*)/', $rule, $matches);
+    $tag = !empty($matches["tag"]) ? $matches["tag"] : 'div';
+    return $tag;
   }
 
   /**
@@ -61,11 +84,9 @@ class Interpreter {
       $element["attributes"]["id"] = $id;    
 
     // Getting the tag
-    preg_match('/(?<tag>[\w-]*)/', $rule, $matches);
-    $tag = isset($matches["tag"]) ? $matches["tag"] : false;
-    $element["tag"] = $tag ? $tag : 'div';
+    $element["tag"] = static::extract_tag($rule);
 
     return $element;
-  }  
+  }
 
 }

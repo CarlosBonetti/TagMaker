@@ -56,6 +56,17 @@ class InterpreterTest extends PHPUnit_Framework_TestCase {
     );
   }
 
+  public function test_extract_tag() {
+    $this->assertEquals('div', Interpreter::extract_tag(''));
+    $this->assertEquals('a', Interpreter::extract_tag('a'));
+    $this->assertEquals('div', Interpreter::extract_tag('.post#test'));
+    $this->assertEquals('section', Interpreter::extract_tag('section'));
+    $this->assertEquals('article', Interpreter::extract_tag('article#post'));
+    $this->assertEquals('tag-with-dash', Interpreter::extract_tag('tag-with-dash.post'));
+    $this->assertEquals('tag_with_underscore', Interpreter::extract_tag('tag_with_underscore#post'));
+    $this->assertEquals('ul', Interpreter::extract_tag('   ul   '));
+  }
+
   public function test_element_rule() {
     $element = Interpreter::element_rule('section');
     $this->assertEquals('section', $element["tag"]);
