@@ -40,7 +40,7 @@ class Interpreter {
   public static function extract_id($rule) {
     $rule = static::normalize_rule($rule);
     preg_match('/#(?<id>[\w-]*)/', $rule, $matches);
-    $id = isset($matches["id"]) ? $matches["id"] : null;
+    $id = !empty($matches["id"]) ? $matches["id"] : null;
     return $id;    
   }
 
@@ -81,6 +81,18 @@ class Interpreter {
   }
 
   /**
+   * Extracts the content of an element rule. Content goes inside '{Content here}'
+   * @param String $rule
+   * @return String Content
+   */
+  public static function extract_content($rule) {
+    $rule = static::normalize_rule($rule);
+    preg_match('/\{(?<content>.*)\}/', $rule, $matches);
+    $content = !empty($matches["content"]) ? $matches["content"] : null;
+    return $content;
+  }
+
+  /**
    * Interprets an element rule
    * Element rules are used to create single elements.   
    * 
@@ -105,6 +117,11 @@ class Interpreter {
     $id = static::extract_id($rule);
     if ($id)
       $element["attributes"]["id"] = $id;    
+
+    // Getting the content '{Content here}'
+    $content = static::extract_content($rule);
+    if ($content)
+      $element["content"] = $content;  
 
     return $element;
   }

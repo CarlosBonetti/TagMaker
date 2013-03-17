@@ -81,6 +81,13 @@ class InterpreterTest extends PHPUnit_Framework_TestCase {
     $this->assertEquals(array('class1', 'class2', 'class3'), Interpreter::extract_classes('li.class1.class2#id.class3'));
   }
 
+  public function test_extract_content() {
+    $this->assertEquals('Content here', Interpreter::extract_content('.class {Content here}'));
+    $this->assertEquals('Lorem ipsum', Interpreter::extract_content('a {Lorem ipsum}#id.class'));
+    $this->assertEquals('  "Yes", ok ', Interpreter::extract_content('a {  "Yes", ok }#id.class'));
+    $this->assertEquals('.special? \ #characters \'', Interpreter::extract_content("{.special? \ #characters '}"));
+  }
+
   public function test_element_rule() {
     $element = Interpreter::element_rule('section');
     $this->assertEquals('section', $element["tag"]);
