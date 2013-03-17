@@ -54,6 +54,18 @@ class Interpreter {
   }
 
   /**
+   * Extracts the id from an element rule
+   * @param String Element rule
+   * @return String Id
+   */
+  public static function extract_id($rule) {
+    $rule = static::normalize_rule($rule);
+    preg_match('/#(?<id>[\w-]*)/', $rule, $matches);
+    $id = isset($matches["id"]) ? $matches["id"] : null;
+    return $id;    
+  }
+
+  /**
    * Interprets an element rule
    * Element rules are used to create single elements.   
    * 
@@ -78,8 +90,7 @@ class Interpreter {
       $element["attributes"]["class"] = implode(' ', $classes);
 
     // Getting the id '#'
-    preg_match('/#(?<id>[\w-]*)/', $rule, $matches);
-    $id = isset($matches["id"]) ? $matches["id"] : false;
+    $id = static::extract_id($rule);
     if ($id)
       $element["attributes"]["id"] = $id;    
 
