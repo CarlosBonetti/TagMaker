@@ -16,9 +16,8 @@ Add to your composer.json:
 ### Usage ###
 
 ```php
-$element = TagMaker::create('a', 'Link');
+$element = TagMaker::create('a', 'Link', array('class' => 'btn'));
 echo $element; // Will render '<a>Link</a>'
-$element->set_class('btn');
 $element->set_href('#');
 $element->append_class('btn-large');
 echo $element; // Output '<a href="#" class="btn btn-large">Link</a>'
@@ -29,6 +28,11 @@ echo $element; // Output '<a href="#" class="btn btn-large">Link</a>'
 ```php
 $element = TagMaker::create('form.form-vertical#new-post[name=new-post,method=post]');
 echo $element; // Output: '<form name="new-post" method="post" class="form-vertical" id="new-post"></form>'
+```
+
+```php
+$element = TagMaker::create('.row.span6#main {Lorem ipsum}');
+echo $element; // Output: '<div class="row span6" id="main">Lorem ipsum</div>'
 ```
 
 ## Magic methods for attributes manipulation

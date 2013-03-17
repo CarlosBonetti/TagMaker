@@ -56,6 +56,38 @@ class InterpreterTest extends PHPUnit_Framework_TestCase {
     );
   }
 
+  public function test_extract_tag() {
+    $this->assertEquals('a', Interpreter::extract_tag('a'));
+    $this->assertEquals('div', Interpreter::extract_tag('.post#test'));
+    $this->assertEquals('section', Interpreter::extract_tag('section'));
+    $this->assertEquals('article', Interpreter::extract_tag('article#post'));
+    $this->assertEquals('tag-with-dash', Interpreter::extract_tag('tag-with-dash.post'));
+    $this->assertEquals('tag_with_underscore', Interpreter::extract_tag('tag_with_underscore#post'));
+    $this->assertEquals('ul', Interpreter::extract_tag('   ul   '));
+  }
+
+  public function test_extract_id() {
+    $this->assertEquals('id', Interpreter::extract_id('#id'));
+    $this->assertEquals('id', Interpreter::extract_id('a.class#id'));
+    $this->assertEquals('id-dash', Interpreter::extract_id('article.class#id-dash.post'));
+    $this->assertEquals('id_underscore', Interpreter::extract_id('article.class#id_underscore.post'));
+  }
+
+  public function test_extract_classes() {
+    $this->assertEquals(array('class'), Interpreter::extract_classes('.class'));
+    $this->assertEquals(array('main'), Interpreter::extract_classes('div.main'));
+    $this->assertEquals(array('class-dash'), Interpreter::extract_classes('div.class-dash'));
+    $this->assertEquals(array('class_underscore'), Interpreter::extract_classes('div.class_underscore'));
+    $this->assertEquals(array('class1', 'class2', 'class3'), Interpreter::extract_classes('li.class1.class2#id.class3'));
+  }
+
+  public function test_extract_content() {
+    $this->assertEquals('Content here', Interpreter::extract_content('.class {Content here}'));
+    $this->assertEquals('Lorem ipsum', Interpreter::extract_content('a {Lorem ipsum}#id.class'));
+    $this->assertEquals('  "Yes", ok ', Interpreter::extract_content('a {  "Yes", ok }#id.class'));
+    $this->assertEquals('.special? \ #characters \'', Interpreter::extract_content("{.special? \ #characters '}"));
+  }
+
   public function test_element_rule() {
     $element = Interpreter::element_rule('section');
     $this->assertEquals('section', $element["tag"]);

@@ -26,6 +26,12 @@ class TagMakerTest extends PHPUnit_Framework_TestCase {
 
     $element = TagMaker::create('p', 'text here');
     $this->assertEquals('<p>text here</p>', $element->render());
+
+    $element = TagMaker::create('div.main{Text here}');
+    $this->assertEquals('Text here', $element->get_content());
+
+    $element = TagMaker::create('div.main{Text here}', 'Override text');
+    $this->assertEquals('Override text', $element->get_content());
   }
 
   public function test_create_element_with_attributes() {
