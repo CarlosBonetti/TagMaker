@@ -191,6 +191,22 @@ class ElementTest extends PHPUnit_Framework_TestCase {
     $this->assertEquals($element->get_attribute('checked'), 'checked');
   }  
 
+  public function test_return_itself() {
+    $element = new Element('section');
+    $element->set_empty_tag(false)
+            ->set_tag('div')
+            ->set_content('Content here')
+            ->set_attributes(array('class' => 'main'))
+            ->merge_attributes(array('id' => 'content'))
+            ->set_name('main-div')
+            ->clear_attributes()
+            ->add_attribute('title', 'Title here')
+            ->remove_attribute('title')
+            ->prepend_class('row')
+            ->append_class('row-large')
+            ->render();
+  }
+
   // ========================================================================
   // Render tests
 
@@ -262,6 +278,21 @@ class ElementTest extends PHPUnit_Framework_TestCase {
   public function test_get_attribute_magic_method() {
     $this->div->set_class('box');
     $this->assertEquals($this->div->get_class(), 'box');
+  }
+  
+  public function test_add_attribute_magic_method() {
+    $element = new Element('div');
+    $element->add_class('row');
+    $this->assertEquals($element->get_class(), 'row');
+  }
+
+  /**
+   * @expectedException TagMaker\ExistentAttributeException
+   */
+  public function test_add_attribute_magic_method_exception() {
+    $element = new Element('div');
+    $element->add_class('row');
+    $element->add_class('row-large'); 
   }
 
 }

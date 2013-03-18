@@ -9,7 +9,7 @@ A dynamic builder of tag elements
 Add to your composer.json:
 ```
 "require": {
-  "tagmaker/tagmaker": "~0.2"
+  "tagmaker/tagmaker": "~0.3"
 }
 ```
 
@@ -46,4 +46,8 @@ $element->prepend_class('span6');
 ```
 
 Available attributes manipulation magic methods are: 
-`append_{$attribute}($value)`, `prepend_{$attribute}($value)`, `set_{$attribute}($value)`, `get_{$attribute}()`
+`append_{$attribute}($value)`, `prepend_{$attribute}($value)`, `set_{$attribute}($value)`, `add_{$attribute}()` and `get_{$attribute}()`.
+
+`add_{$attribute}()` tries to add an attribute to an Element, throwing a ExistentAttributeException if that attribute already exists.
+
+`set_{$attribute}()` add an attribute to an Element, overriding it if already exists.
