@@ -112,15 +112,18 @@ class Element {
   /**
    * Sets the empty_tag flag. Turns it to true with you want self-closing tags.
    * @param boolean $flag
+   * @return Element
    */
   public function set_empty_tag($flag) {
     $this->empty_tag = (boolean) $flag;
+    return $this;
   }
 
   /**
    * Sets the tag of the element
    * @param $tag string not blank
    * @throws BlankTagException
+   * @return Element
    */
   public function set_tag($tag) {
     if (empty($tag))
@@ -131,6 +134,7 @@ class Element {
       $this->set_empty_tag(true);
 
     $this->tag = $tag;
+    return $this;
   }
 
   /**
@@ -144,9 +148,11 @@ class Element {
   /**
    * Sets the tag content (won't be render if element is a empty tag element, like <br />)
    * @param String $content
+   * @return Element
    */
   public function set_content($content) {
     $this->content = $content;
+    return $this;
   }
 
   /**
@@ -183,18 +189,23 @@ class Element {
   /**
    * Sets the element attributes, overriding the old ones
    * @param $attributes Array of attributes
+   * @return Element
    */
   public function set_attributes(array $attributes) {
     $this->attributes = $attributes;
+    return $this;
   }
 
   /**
    * Merges the actual attributes with the parameter, overriding the old ones in case of duplicates
    * @param Array $attributes Attributes to be merged
+   * @return Element
    */
   public function merge_attributes(array $attributes) {
     foreach($attributes as $key => $value)
       $this->set_attribute($key, $value);
+
+    return $this;
   }
 
   /**
@@ -256,12 +267,15 @@ class Element {
    * Adds an attribute to the element, overriding it if already exists
    * @param String $key
    * @param String $value
+   * @return Element
    */
   public function set_attribute($key, $value = null) {
     if ($value === null)
       $this->attributes[] = $key;
     else
       $this->attributes[$key] = $value;
+    
+    return $this;
   }
 
   /**
@@ -269,36 +283,44 @@ class Element {
    * @param String $key
    * @param String $value
    * @throws ExistentAttributeException
+   * @return Element
    */
   public function add_attribute($key, $value = null) {
     if ($this->attribute_exists($key))
       throw new ExistentAttributeException("The '{$key}' attribute already exists in the element");
 
     $this->set_attribute($key, $value);
+    return $this;
   }  
 
   /**
    * Removes all the element attributes
+   * @return Element
    */
   public function clear_attributes() {
     $this->attributes = array();
+    return $this;
   }
 
   /**
    * Removes the attribute
    * @param String $key
+   * @return Element
    */ 
   public function remove_attribute($key) {
     if ($this->is_isolated_attribute($key))
       unset($this->attributes[array_search($key, $this->attributes)]);
     else
       unset($this->attributes[$key]);
+
+    return $this;
   }
 
   /**
    * Adds a value to the end of an attribute. Example: append_attribute('class', 'btn') to <a class="link"></a> will transform it to <a class="link btn"></a>
    * @param String $key
    * @param String $value
+   * @return Element
    */
   public function append_attribute($key, $value) {
     if ($this->is_isolated_attribute($key)) {
@@ -308,12 +330,15 @@ class Element {
       $this->set_attribute($key, $this->get_attribute($key) . ' ' . $value);
     else
       $this->set_attribute($key, $value);
+
+    return $this;
   }
 
   /**
    * Adds a value to the beggining of an attribute. Example: append_attribute('class', 'btn') to <a class="link"></a> will transform it to <a class="btn link"></a>
    * @param String $key
    * @param String $value
+   * @return Element
    */
   public function prepend_attribute($key, $value) {
     if ($this->is_isolated_attribute($key)) {
@@ -323,6 +348,8 @@ class Element {
       $this->set_attribute($key, $value . ' ' . $this->get_attribute($key));
     else
       $this->set_attribute($key, $value);
+
+    return $this;
   }
 
   // ====================================================================
