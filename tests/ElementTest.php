@@ -279,5 +279,20 @@ class ElementTest extends PHPUnit_Framework_TestCase {
     $this->div->set_class('box');
     $this->assertEquals($this->div->get_class(), 'box');
   }
+  
+  public function test_add_attribute_magic_method() {
+    $element = new Element('div');
+    $element->add_class('row');
+    $this->assertEquals($element->get_class(), 'row');
+  }
+
+  /**
+   * @expectedException TagMaker\ExistentAttributeException
+   */
+  public function test_add_attribute_magic_method_exception() {
+    $element = new Element('div');
+    $element->add_class('row');
+    $element->add_class('row-large'); 
+  }
 
 }

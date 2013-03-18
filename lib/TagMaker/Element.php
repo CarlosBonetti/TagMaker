@@ -78,6 +78,12 @@ class Element {
       return $this->prepend_attribute($attribute, $arguments[0]);
     }
 
+    // Add attribute magic method
+    if (substr($method_name, 0, 4) === 'add_') {
+      $attribute = substr($method_name, 4);
+      return $this->add_attribute($attribute, $arguments[0]);
+    }
+
     throw new \Exception("The method '{$method_name}' does not exist");
   }
 
@@ -274,7 +280,7 @@ class Element {
       $this->attributes[] = $key;
     else
       $this->attributes[$key] = $value;
-    
+
     return $this;
   }
 
@@ -287,7 +293,7 @@ class Element {
    */
   public function add_attribute($key, $value = null) {
     if ($this->attribute_exists($key))
-      throw new ExistentAttributeException("The '{$key}' attribute already exists in the element");
+      throw new ExistentAttributeException("The '{$key}' attribute already exists in the element. Use set_attribute(...) to override it");
 
     $this->set_attribute($key, $value);
     return $this;
