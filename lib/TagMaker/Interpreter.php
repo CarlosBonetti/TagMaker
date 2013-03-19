@@ -97,7 +97,7 @@ class Interpreter {
    * Element rules are used to create single elements.   
    * 
    * Blank tags (like '.content' or '#main') are implicitly transformed to a 'div' tag 
-   * @return array Array with 'tag' => 'tagname' and attributes => array_of_attributes containing the provided attributes
+   * @return Array Array with 'tag' => tagname, 'content' => content and attributes => array_of_attributes containing the provided attributes
    */
   public static function element_rule($rule) {
     // Getting the tag
