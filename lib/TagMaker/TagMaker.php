@@ -8,7 +8,7 @@ class TagMaker {
    * Creates a single element
    * @param String element_rule
    * @param String Text inside the tags (optional)
-   * @param Array $attributes. Will override attributes passed at the element rule
+   * @param Array $attributes. Will override attributes passed at the element rule (Optional)
    * @return Element
    */
   public static function create($element_rule, $content = null, $attributes = array()) {
