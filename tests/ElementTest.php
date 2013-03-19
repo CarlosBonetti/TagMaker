@@ -15,20 +15,6 @@ class ElementTest extends PHPUnit_Framework_TestCase {
     $this->li[1] = new Element('li');
   }
 
-  /**
-   * @expectedException TagMaker\BlankTagException
-   */
-  public function test_empty_tag() {
-    $element = new Element("");
-  }
-
-  /**
-   * @expectedException TagMaker\BlankTagException
-   */
-  public function test_null_tag() {
-    $element = new Element(null);
-  }
-
   public function test_set_and_get_tag() {
     $tag = 'p';
     $element = new Element($tag);
@@ -37,6 +23,11 @@ class ElementTest extends PHPUnit_Framework_TestCase {
     $tag2 = 'li';
     $element->set_tag($tag2);
     $this->assertEquals($tag2, $element->get_tag());
+  }
+
+  public function test_empty_tag() {
+    $element = new Element();
+    $this->assertEmpty($element->get_tag());
   }
 
   public function test_set_and_get_content() {
@@ -63,18 +54,18 @@ class ElementTest extends PHPUnit_Framework_TestCase {
     $this->assertEquals($attributes, $element->get_attributes());
   }
 
-  public function test_set_and_get_empty_tag() {
+  public function test_set_and_get_self_closing_tag() {
     $element = new Element('div');
-    $this->assertFalse($element->is_empty_tag());
-    $element->set_empty_tag(true);
-    $this->assertTrue($element->is_empty_tag());
+    $this->assertFalse($element->is_self_closing());
+    $element->set_self_closing(true);
+    $this->assertTrue($element->is_self_closing());
   }
 
-  public function test_default_empty_tag() {
+  public function test_default_self_closing_tags() {
     $element = new Element('BR');
-    $this->assertTrue($element->is_empty_tag());
+    $this->assertTrue($element->is_self_closing());
     $element2 = new Element('inPut');
-    $this->assertTrue($element2->is_empty_tag());
+    $this->assertTrue($element2->is_self_closing());
   }
 
   public function test_copy_element() {
@@ -193,7 +184,7 @@ class ElementTest extends PHPUnit_Framework_TestCase {
 
   public function test_return_itself() {
     $element = new Element('section');
-    $element->set_empty_tag(false)
+    $element->set_self_closing(false)
             ->set_tag('div')
             ->set_content('Content here')
             ->set_attributes(array('class' => 'main'))
@@ -221,6 +212,17 @@ class ElementTest extends PHPUnit_Framework_TestCase {
 
     $element = new Element('a', 'Link', array('class' => 'btn'));
     $this->assertEquals($element->render(), '<a class="btn">Link</a>');
+  }
+
+  public function test_render_empty_tag() {
+    $element = new Element('', 'Lorem ipsum', array('class' => 'main'));
+    $this->assertEquals('Lorem ipsum', $element->render());
+    $element->append_id('content');
+    $element->set_tag('div');
+    $this->assertEquals('<div class="main" id="content">Lorem ipsum</div>', $element->render());
+
+    $element = new Element('  ', 'Content here');
+    $this->assertEquals('Content here', $element->render());
   }
 
   // ========================================================================
