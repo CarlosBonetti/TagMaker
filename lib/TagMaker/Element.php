@@ -44,8 +44,9 @@ class Element {
 
   /**
    * Constructs a new element.
-   * @param String $tag
-   * @param Array $attributes
+   * @param String Tag
+   * @param String Content
+   * @param Array Attributes
    */
   public function __construct($tag, $content = '', $attributes = array()) {
     $this->set_tag($tag);
@@ -108,7 +109,7 @@ class Element {
   }
 
   /**
-   * Returns if the element is a empty tag
+   * Returns if the element is an empty tag
    * @return boolean
    */
   public function is_empty_tag() {
@@ -127,7 +128,7 @@ class Element {
 
   /**
    * Sets the tag of the element
-   * @param $tag string not blank
+   * @param String Tag
    * @throws BlankTagException
    * @return Element
    */
@@ -145,7 +146,7 @@ class Element {
 
   /**
    * Returns the tag of the element
-   * @return string $tag
+   * @return String Tag
    */
   public function get_tag() {
     return $this->tag;
@@ -194,7 +195,7 @@ class Element {
 
   /**
    * Sets the element attributes, overriding the old ones
-   * @param $attributes Array of attributes
+   * @param Array Attributes
    * @return Element
    */
   public function set_attributes(array $attributes) {
@@ -216,7 +217,7 @@ class Element {
 
   /**
    * Gets the element attributes
-   * @return array
+   * @return Array
    */
   public function get_attributes() {
     return $this->attributes;
@@ -251,8 +252,8 @@ class Element {
 
   /**
    * Gets the value of an attribute.
-   * @param String $key
-   * @param Boolean $force Pass true to get false instead of an exception if the attribute does not exists
+   * @param String Key
+   * @param Boolean Pass true to get false instead of an exception if the attribute does not exists
    * @return String
    * @throws UndefinedAttributeException
    */
