@@ -9,8 +9,9 @@ class Element {
 
   /**
    * The tag element. Examples: a, p, ul, li
+   * Elements with empty tag will render only its content
    */
-  private $tag;
+  private $tag = null;
 
   /**
    * The tag content. Example: <a href="">The content goes here</a>
@@ -25,12 +26,12 @@ class Element {
   /**
    * Used to flag self-closing tag elements, like <br /> or <input />
    */
-  private $empty_tag = false;
+  private $self_closing = false;
 
   /**
-   * Default self-closing tags. $empty_tag flag will be setted true at creation time of these tags
+   * Default self-closing tags. $self_closing flag will be setted true at creation time of these tags
    */
-  private static $DEFAULT_EMPTY_TAGS = array(
+  private static $DEFAULT_SELF_CLOSING = array(
     'area',
     'base',
     'basefont',
@@ -44,11 +45,11 @@ class Element {
 
   /**
    * Constructs a new element.
-   * @param String Tag
-   * @param String Content
-   * @param Array Attributes
+   * @param String Tag (Optional)
+   * @param String Content (Optional)
+   * @param Array Attributes (Optional)
    */
-  public function __construct($tag, $content = '', $attributes = array()) {
+  public function __construct($tag = '', $content = '', $attributes = array()) {
     $this->set_tag($tag);
     $this->set_content($content);
     $this->set_attributes($attributes);
@@ -109,20 +110,20 @@ class Element {
   }
 
   /**
-   * Returns if the element is an empty tag
+   * Returns if the element is a self-closing tag
    * @return boolean
    */
-  public function is_empty_tag() {
-    return $this->empty_tag;
+  public function is_self_closing() {
+    return $this->self_closing;
   }
 
   /**
-   * Sets the empty_tag flag. Turns it to true with you want self-closing tags.
+   * Sets the self_closing flag. Turns it to true with you want self-closing tags.
    * @param boolean $flag
    * @return Element
    */
-  public function set_empty_tag($flag) {
-    $this->empty_tag = (boolean) $flag;
+  public function set_self_closing($flag) {
+    $this->self_closing = (boolean) $flag;
     return $this;
   }
 
@@ -133,12 +134,11 @@ class Element {
    * @return Element
    */
   public function set_tag($tag) {
-    if (empty($tag))
-      throw new BlankTagException("Tag must not be null");
-
-    $this->set_empty_tag(false);
-    if (in_array(strtolower($tag), self::$DEFAULT_EMPTY_TAGS))
-      $this->set_empty_tag(true);
+    $tag = trim($tag);
+    
+    $this->set_self_closing(false);
+    if (in_array(strtolower($tag), self::$DEFAULT_SELF_CLOSING))
+      $this->set_self_closing(true);
 
     $this->tag = $tag;
     return $this;
@@ -177,8 +177,8 @@ class Element {
   public function copy() {
     $new = new Element($this->tag, $this->get_content(), $this->get_attributes());
 
-    if ($this->is_empty_tag())
-      $new->set_empty_tag();
+    if ($this->is_self_closing())
+      $new->set_self_closing(true);
     
     return $new;    
   }
@@ -392,9 +392,15 @@ class Element {
    * @return String
    */
   public function render() {
-    $output = "<{$this->tag}";
-    $output .= !empty($this->attributes) ? " " . $this->render_attributes() : "";
-    $output .= $this->is_empty_tag() ? " />" : ">{$this->content}</{$this->tag}>";
+    $output = "";
+
+    if (!empty($this->tag)) {
+      $output .= "<{$this->tag}";
+      $output .= !empty($this->attributes) ? " " . $this->render_attributes() : "";
+      $output .= $this->is_self_closing() ? " />" : ">{$this->content}</{$this->tag}>";
+    } else {
+      $output .= $this->content;
+    }   
 
     return $output;
   }
