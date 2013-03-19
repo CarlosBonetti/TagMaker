@@ -15,20 +15,6 @@ class ElementTest extends PHPUnit_Framework_TestCase {
     $this->li[1] = new Element('li');
   }
 
-  /**
-   * @expectedException TagMaker\BlankTagException
-   */
-  public function test_empty_tag() {
-    $element = new Element("");
-  }
-
-  /**
-   * @expectedException TagMaker\BlankTagException
-   */
-  public function test_null_tag() {
-    $element = new Element(null);
-  }
-
   public function test_set_and_get_tag() {
     $tag = 'p';
     $element = new Element($tag);
@@ -37,6 +23,11 @@ class ElementTest extends PHPUnit_Framework_TestCase {
     $tag2 = 'li';
     $element->set_tag($tag2);
     $this->assertEquals($tag2, $element->get_tag());
+  }
+
+  public function test_empty_tag() {
+    $element = new Element();
+    $this->assertEmpty($element->get_tag());
   }
 
   public function test_set_and_get_content() {
@@ -221,6 +212,17 @@ class ElementTest extends PHPUnit_Framework_TestCase {
 
     $element = new Element('a', 'Link', array('class' => 'btn'));
     $this->assertEquals($element->render(), '<a class="btn">Link</a>');
+  }
+
+  public function test_render_empty_tag() {
+    $element = new Element('', 'Lorem ipsum', array('class' => 'main'));
+    $this->assertEquals('Lorem ipsum', $element->render());
+    $element->append_id('content');
+    $element->set_tag('div');
+    $this->assertEquals('<div class="main" id="content">Lorem ipsum</div>', $element->render());
+
+    $element = new Element('  ', 'Content here');
+    $this->assertEquals('Content here', $element->render());
   }
 
   // ========================================================================
