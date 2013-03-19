@@ -63,18 +63,18 @@ class ElementTest extends PHPUnit_Framework_TestCase {
     $this->assertEquals($attributes, $element->get_attributes());
   }
 
-  public function test_set_and_get_empty_tag() {
+  public function test_set_and_get_self_closing_tag() {
     $element = new Element('div');
-    $this->assertFalse($element->is_empty_tag());
-    $element->set_empty_tag(true);
-    $this->assertTrue($element->is_empty_tag());
+    $this->assertFalse($element->is_self_closing());
+    $element->set_self_closing(true);
+    $this->assertTrue($element->is_self_closing());
   }
 
-  public function test_default_empty_tag() {
+  public function test_default_self_closing_tags() {
     $element = new Element('BR');
-    $this->assertTrue($element->is_empty_tag());
+    $this->assertTrue($element->is_self_closing());
     $element2 = new Element('inPut');
-    $this->assertTrue($element2->is_empty_tag());
+    $this->assertTrue($element2->is_self_closing());
   }
 
   public function test_copy_element() {
@@ -193,7 +193,7 @@ class ElementTest extends PHPUnit_Framework_TestCase {
 
   public function test_return_itself() {
     $element = new Element('section');
-    $element->set_empty_tag(false)
+    $element->set_self_closing(false)
             ->set_tag('div')
             ->set_content('Content here')
             ->set_attributes(array('class' => 'main'))
