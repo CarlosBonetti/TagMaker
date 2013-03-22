@@ -101,17 +101,20 @@ class ElementTest extends PHPUnit_Framework_TestCase {
     $this->assertEquals('title', $element->get_name());
     $this->assertEquals('#', $element->get_href());
   }
-
-  /**
-   * @expectedException TagMaker\UndefinedAttributeException
-   */
+ 
   public function test_get_attribute() {
     $element = $this->div;
 
     $this->assertEquals('box', $element->get_attribute('class'));
     $this->assertTrue($element->get_attribute('touched'));
-    $this->assertFalse($element->get_attribute('id', true));
-    $element->get_attribute('id'); // Throws the exception
+    $this->assertFalse($element->get_attribute('id', true));    
+  }
+
+  /**
+   * @expectedException TagMaker\UndefinedAttributeException
+   */
+  public function test_get_attribute_undefined() {
+    $this->div->get_attribute('id');
   }
 
   public function test_set_attribute() {
@@ -132,10 +135,7 @@ class ElementTest extends PHPUnit_Framework_TestCase {
     $this->div->clear_attributes();
     $this->assertEmpty($this->div->get_attributes());
   }
-
-  /**
-   * @expectedException TagMaker\UndefinedAttributeException
-   */
+  
   public function test_remove_attribute() {
     $element = new Element('a', '', array('class' => 'link'));
     $element->remove_attribute('class');
@@ -145,8 +145,7 @@ class ElementTest extends PHPUnit_Framework_TestCase {
 
     $element = new Element('a', '', array('class' => 'link', 'touched'));
     $element->remove_attribute('touched');
-    $this->assertEquals($element->get_attribute('class'), 'link');
-    $element->get_attribute('touched'); // Expected exception
+    $this->assertEquals($element->get_attribute('class'), 'link');    
   }
 
   public function test_append_attribute() {
@@ -227,21 +226,20 @@ class ElementTest extends PHPUnit_Framework_TestCase {
 
   // ========================================================================
   // Magic methods tests
-
-  /**
-   * @expectedException TagMaker\UndefinedAttributeException
-   */
+  
   public function test_get_magic_method() {
     $this->assertEquals($this->div->tag, $this->div->get_tag());
     $this->assertEquals($this->div->content, $this->div->get_content());
     $this->assertEquals($this->div->attributes, $this->div->get_attributes());
-
-    $this->div->undefined; // Exception here
   }
 
   /**
    * @expectedException TagMaker\UndefinedAttributeException
    */
+  public function test_get_magic_method_undefined_attribute() {
+    $this->div->undefined; 
+  }
+ 
   public function test_set_magic_method() {
     $this->div->tag = 'body';
     $this->assertEquals($this->div->get_tag(), 'body');
@@ -251,9 +249,14 @@ class ElementTest extends PHPUnit_Framework_TestCase {
 
     $this->div->attributes = array('class' => 'container');
     $this->assertEquals($this->div->get_attribute('class'), 'container');
-    $this->assertEquals('container', $this->div->attributes["class"]);
+    $this->assertEquals('container', $this->div->attributes["class"]);    
+  }
 
-    $this->div->undefined = ""; // Exception here
+  /**
+   * @expectedException TagMaker\UndefinedAttributeException
+   */
+  public function test_set_magic_method_undefined() {
+    $this->div->undefined = "";
   }
 
   public function test_set_attribute_magic_method() {
