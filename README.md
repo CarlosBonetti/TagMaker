@@ -9,7 +9,7 @@ A dynamic builder of tag elements
 Add to your composer.json:
 ```
 "require": {
-  "tagmaker/tagmaker": "~0.4"
+  "tagmaker/tagmaker": "~0.5"
 }
 ```
 
@@ -51,3 +51,21 @@ Available attributes manipulation magic methods are:
 `add_{$attribute}()` tries to add an attribute to an Element, throwing a ExistentAttributeException if that attribute already exists.
 
 `set_{$attribute}()` add an attribute to an Element, overriding it if already exists.
+
+# HTML Decoder
+
+TagMaker provides a way to decodes single HTML elements and transforms it to a `TagMaker\Element`. Examples:
+
+```php
+$element = TagMaker::decode('<div class="main" id="content">Lorem ipsum...</div>');
+// Will create a TagMaker\Element based at the given HTML
+```
+
+Decoder does not support multiple elements (see Limitations).
+
+
+# Limitations
+
+The actual version does not support multiple elements.
+
+Is pretended to support multiple elements (for decoding and creation) after 1.0 version.
