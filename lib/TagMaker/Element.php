@@ -93,7 +93,7 @@ class Element {
    * Get magic method. Creates a shortcut to get_ methods. Using $this->attributes has the same effect of $this->get_attributes()
    */
   public function __get($name) {
-    if (!isset($this->{$name}))
+    if (!in_array($name, array('tag', 'content', 'attributes')))
       throw new UndefinedAttributeException("The attribute '{$name}' does not exist. Use get_{$name}() or get_attribute('{$name}') if you are trying to access a tag attribute");
 
     return call_user_method("get_{$name}", $this);
@@ -103,7 +103,7 @@ class Element {
    * Set magic method. Creates a shortcut to set_ methods. Using $this->tag = 'a' has the same effect of $this->set_tag('a')
    */
   public function __set($name, $value) {
-    if (!isset($this->{$name}))
+    if (!in_array($name, array('tag', 'content', 'attributes')))
       throw new UndefinedAttributeException("The attribute '{$name}' does not exist. Use set_{$name}('{$value}') or set_attribute('{$name}', '{$value}') if you are trying to modify a tag attribute");
 
     return call_user_method_array("set_{$name}", $this, array($value)); 
