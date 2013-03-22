@@ -1,6 +1,7 @@
 <?php
 
 use TagMaker\TagMaker;
+use TagMaker\Element;
 
 class TagMakerTest extends PHPUnit_Framework_TestCase {
 
@@ -42,6 +43,14 @@ class TagMakerTest extends PHPUnit_Framework_TestCase {
     $this->assertEquals('large-link', $element->get_class());
     $this->assertEquals('link', $element->get_id());
     $this->assertEquals('#', $element->get_href());
+  }
+
+  public function test_decode() {
+    $element = TagMaker::decode('<input type="checkbox" value="Brazil" checked />');
+    $this->assertTrue($element instanceof Element);
+    $this->assertEquals('input', $element->get_tag());
+    $this->assertEquals(null, $element->get_content());
+    $this->assertEquals(array('type' => 'checkbox', 'value' => 'Brazil', 'checked'), $element->get_attributes());
   }
 
 }
