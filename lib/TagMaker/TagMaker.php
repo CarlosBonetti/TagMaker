@@ -22,4 +22,13 @@ class TagMaker {
     return $element;
   }
 
+  /**
+   * Decodes a HTML string, transforming it into TagMaker\Element (Just work for single elements. Working to support multiple elements on 1.0 version)
+   * @param String HTML tag to decode
+   * @return TagMaker\Element
+   */
+  public static function decode($html) {
+    return Decoder::decode_element($html);
+  }
+
 }
