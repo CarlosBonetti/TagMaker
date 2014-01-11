@@ -13,14 +13,14 @@ Add to your composer.json:
 }
 ```
 
-### Usage ###
+### Example of Use ###
 
 ```php
 $element = TagMaker::create('a', 'Link', array('class' => 'btn'));
-echo $element; // Will render '<a>Link</a>'
+echo $element; // Output: '<a class="btn">Link</a>'
 $element->set_href('#');
 $element->append_class('btn-large');
-echo $element; // Output '<a href="#" class="btn btn-large">Link</a>'
+echo $element; // Output: '<a href="#" class="btn btn-large">Link</a>'
 ```
 
 ## CSS-Like element creation
@@ -45,7 +45,7 @@ $element->prepend_class('span6');
 // Output: <div class="span6 content" id="main-content">Lorem ipsum</div>
 ```
 
-Available attributes manipulation magic methods are: 
+Available magic methods for attribute manipulation are:
 `append_{$attribute}($value)`, `prepend_{$attribute}($value)`, `set_{$attribute}($value)`, `add_{$attribute}()` and `get_{$attribute}()`.
 
 `add_{$attribute}()` tries to add an attribute to an Element, throwing a ExistentAttributeException if that attribute already exists.
