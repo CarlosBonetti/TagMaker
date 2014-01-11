@@ -19,8 +19,8 @@
     },
     "autoload": {
         "psr-0": {
-            "TagMaker": "lib/"
+            "TagMaker": "src/"
         },
-        "files" : ["lib/TagMaker/Exceptions.php"]
+        "files" : ["src/TagMaker/Exceptions.php"]
     }
 }
