@@ -1,3 +1,5 @@
+__This project is DEPRECATED and not being maintained anymore__.
+
 # TagMaker #
 
 A dynamic builder of tag elements
